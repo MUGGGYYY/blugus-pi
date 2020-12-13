@@ -1,14 +1,16 @@
 from datetime import time, datetime, date
 from time import sleep
+from pathlib import Path
 
-START: time = time(22, 17, 0)
-STOP: time = time(22, 18, 0)
-PICTURES_PER_DAY: int = 2000
+START: time = time(6, 0, 0)
+STOP: time = time(18, 0, 0)
+PICTURES_PER_DAY: int = 730
+IMAGES_DIR = Path() / "images"
 
 
 def capture_image() -> None:
     """ Captures image from PI Camera """
-    file_name = f"{datetime.now()}.jpg"
+    file_name = IMAGES_DIR / f"{datetime.now()}.jpg"
     print(f"Capturing image {file_name}")
 
 
@@ -41,6 +43,7 @@ def wait_for_capture_interval():
 
 
 if __name__ == "__main__":
+    IMAGES_DIR.mkdir(exist_ok=True)
     assert START < STOP, "Start time must be before stop time"
     while True:
         wait_for_capture_interval()
